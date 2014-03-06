@@ -1,21 +1,21 @@
 {
-  "name": "start-here",
+  "name": "math-component",
   "version": "0.1.0",
-  "description": "Forkable component for Mozilla Appmaker",
+  "description": "Math Component for Appmaker",
+  "author": "Christopher De Cairos",
   "main": "none",
   "scripts": {
     "test": "grunt"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mozilla-appmaker/start-here"
+    "url": "git@github.com:cadecairos/math-component"
   },
   "keywords": [
     "appmaker",
     "webcomponents",
     "ceci"
   ],
-  "author": "David Ascher",
   "license": "MPL-v2",
   "bugs": {
     "url": "https://github.com/mozilla-appmaker/start-here/issues"

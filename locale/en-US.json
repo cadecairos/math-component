@@ -1,0 +1,10 @@
+{
+	"ceci-math-component": "Math",
+	"ceci-math-component/description": "performs an mathematical operation on two input values",
+	"ceci-math-component/attributes/x/label": "x",
+  "ceci-math-component/attributes/x/description": "The x value of the operation (left side)",
+  "ceci-math-component/attributes/y/label": "y",
+  "ceci-math-component/attributes/y/description": "The y value of the operation (right side)",
+  "ceci-math-component/attributes/operation/label": "Operation",
+  "ceci-math-component/attributes/operation/description": "The operation to apply to x and y"
+}

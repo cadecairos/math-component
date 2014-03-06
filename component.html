@@ -1,0 +1,147 @@
+<polymer-element name="ceci-math-component" extends="ceci-element" attributes="operation x y">
+  <template>
+    <link rel="stylesheet" href="component.css">
+    <div class="math" on-click="{{evaluate}}">
+      <div class="math-wrapper">
+        <span id="x" class="x-param">{{x}}</span>
+        <span id="operation" class="operation-param">{{operation}}</span>
+        <span id="y" class="y-param">{{y}}</span>
+      </div>
+    </div>
+    <shadow></shadow>
+    <script type="text/json" id="ceci-definition">
+      {
+        "name": "math-component",
+        "tags": "math-component,math,starter",
+        "thumbnail": "./thumbnail.png",
+        "description": "performs an mathematical operation on two input values",
+        "broadcasts": {
+          "evaluated": {
+            "label": "Evaluated",
+            "description": "The result of the input expression"
+          }
+        },
+        "listeners": {
+          "setX": {
+            "description": "Set the value of X",
+            "label": "Set x"
+          },
+          "setY": {
+            "description": "Set the value of Y",
+            "label": "Set y"
+          },
+          "evaluate": {
+            "description": "Evaluate the expression",
+            "label": "Evaluate"
+          }
+        },
+        "attributes": {
+          "operation": {
+            "description": "The operation to apply to x and y",
+            "label": "Operation",
+            "editable": "select",
+            "options": [ "Add", "Subtract", "Multiply", "Divide" ]
+          },
+          "x": {
+            "description": "The x value of the operation (left side)",
+            "label": "x value",
+            "editable": "number"
+          },
+          "y": {
+            "description": "The y value of the operation (right side)",
+            "label": "y value",
+            "editable": "number"
+          }
+        }
+      }
+    </script>
+  </template>
+    <script>
+      Polymer("ceci-math-component", {
+        ready: function() {
+          // Default the attribute values to ensure correct data type
+          this.x = (+this.x || +this.x === 0) ? +this.x : 1;
+          this.y = (+this.y || +this.y === 0) ? +this.x : 1;
+          this.operation = this.operation || "Add";
+
+          // cache references to the component elements
+          this.xElem = this.$.x;
+          this.yElem = this.$.y;
+          this.operationElem = this.$.operation;
+
+          // call this function because it feels like the right thing to do
+          this.super();
+        },
+
+        // Operation Constants
+        OPERATIONS: {
+          "Add": "+",
+          "Subtract": "-",
+          "Multiply": "x",
+          "Divide": "/"
+        },
+
+        // Attributes
+        x: 1,
+        y: 1,
+        operation: "Add",
+
+        // Listeners
+        setX: function(newX) {
+          this.x = (+newX || +newX === 0) ? +newX : this.x;
+          this.broadcastEvaluated();
+        },
+        setY: function(newY) {
+          this.y = (+newY || +newY === 0) ? +newY : this.y;
+          this.broadcastEvaluated();
+        },
+        evaluate: function() {
+          this.broadcastEvaluated();
+        },
+
+        // attribute changed events
+        xChanged: function() {
+          this.evaluate();
+        },
+        yChanged: function() {
+          this.evaluate();
+        },
+        operationChanged: function() {
+          this.evaluate();
+        },
+
+        // Helper Methods
+        broadcastEvaluated: function() {
+          this.updateUI();
+          this.broadcast("evaluated", this.evaluateExpresstion() );
+        },
+        evaluateExpresstion: function() {
+          this.updateUI();
+          switch (this.operation) {
+            case "Add":
+              return this.x + this.y;
+
+            case "Subtract":
+              return this.x - this.y;
+
+            case "Multiply":
+              return this.x * this.y;
+
+            case "Divide":
+              if ( this.y === 0 ) {
+                console.error("THOU SHALT NOT DIVIDE BY ZERO");
+                return 0;
+              }
+              return this.x / this.y;
+            default:
+              return 0;
+          }
+        },
+        updateUI: function() {
+          this.xElem.textContent = this.x;
+          this.yElem.textContent = this.y;
+          this.operationElem.textContent = this.OPERATIONS[ this.operation ];
+        }
+      });
+    </script>
+</polymer-element>
